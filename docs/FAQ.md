@@ -20,3 +20,10 @@ defaults to **7778**. Match the image you run via `spec.reliablePort`.
 
 Not for a basic server. Claiming happens in the Satisfactory client. Enable
 `generateSecrets` (or BYO Secret) when using the optional Server Manager sidecar.
+
+## Pod crash-loops with `chown: Operation not permitted` on `/config`
+
+TrueNAS NFS `root_squash` maps root-created files to `nobody` and blocks `chown`.
+The operator runs the robtme container as `PUID`/`PGID` (default 1000) so the
+entrypoint skips root chown. Prefer `storageClassName: truenas-csi-nfs-no-mapall`
+and do **not** set `fsGroup` on the game pod.

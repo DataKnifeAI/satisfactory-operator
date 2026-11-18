@@ -38,6 +38,10 @@ Mount `/config` (PVC). Layout inside the image:
 
 Default PVC size: **40Gi**.
 
+On DataKnife prd-apps, use StorageClass **`truenas-csi-nfs-no-mapall`**. The
+operator runs the game container as uid/gid `1000` so the robtme entrypoint does
+not need root `chown` (which NFS root_squash rejects).
+
 ## Resources
 
 Wiki recommends ~8–16Gi RAM. Operator defaults request **12Gi** / limit **16Gi** (scales up

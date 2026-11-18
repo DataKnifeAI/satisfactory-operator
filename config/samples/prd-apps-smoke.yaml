@@ -36,10 +36,21 @@ spec:
   persistence:
     size: 40Gi
     mountPath: /config
-    storageClassName: truenas-csi-nfs
+    # no-mapall: robtme entrypoint chowns /config to PUID/PGID (NFS root_squash breaks that).
+    storageClassName: truenas-csi-nfs-no-mapall
+
+  # Fit prd-apps-large-worker-1 (CPU requests already ~94% utilised).
+  resources:
+    requests:
+      cpu: 250m
+      memory: 8Gi
+    limits:
+      cpu: "4"
+      memory: 16Gi
 
   nodeSelector:
     kubernetes.io/arch: amd64
     kubernetes.io/os: linux
+    node-type: large
 
   terminationGracePeriodSeconds: 60

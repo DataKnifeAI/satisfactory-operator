@@ -152,7 +152,10 @@ func BuildDeployment(server *satisfactoryv1alpha1.SatisfactoryServer, configHash
 	}
 
 	mountPath := config.MountPath(server.Spec)
-	fsGroup := config.PGID(server.Spec)
+	// Run as PUID/PGID (default 1000) so robtme skips root chown+gosu. TrueNAS
+	// NFS root_squash maps root-created files to nobody and makes chown fail
+	// under set -e. Prefer storageClass truenas-csi-nfs-no-mapall; avoid fsGroup.
+	runAs := config.PUID(server.Spec)
 	containers := []corev1.Container{
 		{
 			Name:            "satisfactory",
@@ -165,6 +168,10 @@ func BuildDeployment(server *satisfactoryv1alpha1.SatisfactoryServer, configHash
 				{Name: "reliable", ContainerPort: reliablePort, Protocol: corev1.ProtocolTCP},
 			},
 			Resources: config.DefaultResources(server.Spec),
+			SecurityContext: &corev1.SecurityContext{
+				RunAsUser:  &runAs,
+				RunAsGroup: &runAs,
+			},
 			VolumeMounts: []corev1.VolumeMount{
 				{Name: "data", MountPath: mountPath},
 			},
@@ -184,11 +191,8 @@ func BuildDeployment(server *satisfactoryv1alpha1.SatisfactoryServer, configHash
 		TerminationGracePeriodSeconds: &grace,
 		ImagePullSecrets:              server.Spec.ImagePullSecrets,
 		NodeSelector:                  server.Spec.NodeSelector,
-		SecurityContext: &corev1.PodSecurityContext{
-			FSGroup: &fsGroup,
-		},
-		Containers: containers,
-		Volumes:    volumes,
+		Containers:                    containers,
+		Volumes:                       volumes,
 	}
 	if server.Spec.ServerManager.Enabled {
 		podSpec.ServiceAccountName = serverManagerSAName(server)
