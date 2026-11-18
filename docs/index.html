@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Satisfactory Operator — DataKnifeAI</title>
+  <meta name="description" content="Host a Satisfactory dedicated server on Kubernetes. Declare a SatisfactoryServer CR and give players a Direct connect address." />
+  <meta property="og:title" content="Satisfactory Operator — DataKnifeAI" />
+  <meta property="og:description" content="Kubernetes operator for Satisfactory dedicated servers — Factory worlds on a VIP." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/hero-satisfactory-operator.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/landing.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hero" id="top">
+    <div class="hero__media" aria-hidden="true">
+      <img
+        class="hero__photo"
+        src="assets/hero-satisfactory-operator.jpg"
+        alt=""
+        width="1280"
+        height="720"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <div class="hero__veil"></div>
+      <div class="hero__ember"></div>
+    </div>
+
+    <div class="hero__content">
+      <p class="brand">
+        <span class="brand__name">Satisfactory Operator</span>
+        <span class="brand__by">by DataKnifeAI</span>
+      </p>
+      <h1 class="hero__title">Hold Factory. Let friends Direct connect.</h1>
+      <p class="hero__lede">
+        One <code>SatisfactoryServer</code> CR hosts the community dedicated server on Kubernetes —
+        so your crew can join and reclaim the wilds together.
+      </p>
+      <div class="cta">
+        <a class="btn btn--primary" href="https://github.com/DataKnifeAI/satisfactory-operator">View on GitHub</a>
+        <a class="btn btn--ghost" href="#local">Local / PC</a>
+        <a class="btn btn--ghost" href="#connect">How to connect</a>
+        <a class="btn btn--ghost" href="#manager">Server Manager</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 30 C240 68 460 6 720 36 C980 70 1220 10 1440 34 L1440 72 L0 72 Z" fill="#f2efe6" />
+      <path d="M0 46 C200 16 420 64 720 42 C1040 18 1260 60 1440 44 L1440 72 L0 72 Z" fill="#e6e2d6" opacity="0.95" />
+    </svg>
+  </div>
+
+  <main id="main">
+    <section class="section section--promise" aria-labelledby="promise-heading">
+      <div class="wrap">
+        <div class="section__intro">
+          <h2 id="promise-heading">Built for hosting a world</h2>
+          <p class="section__lede">
+            Not a game storefront — an operator that stands up the dedicated server your players join.
+          </p>
+        </div>
+
+        <ul class="pillars">
+          <li class="pillars__item">
+            <h3>Declare × Reconcile</h3>
+            <p>Apply a CR. The controller builds Deployment, PVC, ConfigMap, Secret, Service, and optional backups + Server Manager.</p>
+          </li>
+          <li class="pillars__item">
+            <h3>Direct UDP path</h3>
+            <p>Prefer a kube-vip LoadBalancer VIP. Envoy UDP rewrites client source and Satisfactory joins fail.</p>
+          </li>
+          <li class="pillars__item">
+            <h3>Join × Survive</h3>
+            <p>Players Direct connect to <code>status.connectionAddress:7777</code> — you keep the cluster side.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--how" aria-labelledby="how-heading">
+      <div class="wrap">
+        <div class="section__intro">
+          <h2 id="how-heading">How it works</h2>
+          <p class="section__lede">Three steps from CRD to a running world.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="steps__item">
+            <div class="steps__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="18" width="44" height="34" rx="5" fill="#f2efe6" stroke="#2a3238" stroke-width="3" />
+                <rect x="18" y="10" width="28" height="14" rx="3" fill="#dce8df" stroke="#2a3238" stroke-width="2.5" />
+                <circle cx="24" cy="34" r="4" fill="#b54a28" />
+                <circle cx="32" cy="34" r="4" fill="#a87842" />
+                <circle cx="40" cy="34" r="4" fill="#3d6b4f" />
+              </svg>
+            </div>
+            <div>
+              <h3>Install the operator</h3>
+              <p><code>kubectl apply -k config/default</code> — CRDs, RBAC, and controller land in your cluster.</p>
+            </div>
+          </li>
+          <li class="steps__item">
+            <div class="steps__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="32" cy="50" rx="18" ry="6" fill="#2a3238" opacity="0.2" />
+                <path d="M16 44 C22 26 28 20 32 18 C36 20 42 26 48 44 C42 52 36 54 32 54 C28 54 22 52 16 44 Z" fill="#3d6b4f" />
+                <circle cx="32" cy="32" r="9" fill="#f2efe6" stroke="#2a3238" stroke-width="2" />
+                <path d="M28 32 L32 26 L36 32 L32 36 Z" fill="#b54a28" />
+              </svg>
+            </div>
+            <div>
+              <h3>Declare a SatisfactoryServer</h3>
+              <p>Set <code>serverName</code>, world name, and a LoadBalancer VIP. The reconciler wires the community image, storage, and passwords.</p>
+            </div>
+          </li>
+          <li class="steps__item">
+            <div class="steps__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="28" r="13" fill="#b54a28" />
+                <circle cx="27" cy="26" r="2.2" fill="#f2efe6" />
+                <circle cx="37" cy="26" r="2.2" fill="#f2efe6" />
+                <path d="M27 33 Q32 37 37 33" fill="none" stroke="#f2efe6" stroke-width="2.2" stroke-linecap="round" />
+                <path d="M18 48 C24 42 40 42 46 48" fill="none" stroke="#3d6b4f" stroke-width="3" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div>
+              <h3>Share the address</h3>
+              <p>Read <code>status.connectionAddress</code> and <code>status.connectionPort</code>, then Direct connect in-game.</p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="section__cta">
+          <a href="https://github.com/DataKnifeAI/satisfactory-operator/blob/main/config/samples/prd-apps-test.yaml">Browse the sample CR →</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--local" id="local" aria-labelledby="local-heading">
+      <div class="wrap wrap--readable">
+        <h2 id="local-heading">Local / minimal PC</h2>
+        <p class="section__lede section__lede--wide">
+          No Kubernetes required. Run the same official
+          <code>ghcr.io/robtme/satisfactory-server</code> image with Docker Compose —
+          then graduate to the operator when you want cluster hosting. Guide:
+          <a href="https://github.com/DataKnifeAI/satisfactory-operator/blob/main/docs/LOCAL.md">docs/LOCAL.md</a>.
+        </p>
+
+        <pre class="codeblock"><code>cd compose
+cp .env.example .env   # set MAXPLAYERS / SKIPUPDATE
+docker compose up -d
+# Direct connect → 127.0.0.1:7777
+docker compose down</code></pre>
+
+        <ul class="ports">
+          <li><span class="ports__label">Players</span> <span class="ports__value">1–6 (official cap)</span></li>
+          <li><span class="ports__label">RAM</span> <span class="ports__value">~8&nbsp;Gi free recommended · official minimum 4&nbsp;Gi</span></li>
+          <li><span class="ports__label">Ports</span> <span class="ports__value">7777 / UDP game · 8888 / UDP beacon</span></li>
+        </ul>
+        <p class="fineprint">
+          Saves live under <code>compose/data/</code>. Cluster path (LoadBalancer VIP + CR) stays the production default.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--connect" id="connect" aria-labelledby="connect-heading">
+      <div class="wrap wrap--readable">
+        <h2 id="connect-heading">Connect from inside Satisfactory</h2>
+        <p class="section__lede section__lede--wide">
+          Once the CR is Ready, players join from the game client — not from kubectl.
+          Full write-up:
+          <a href="https://github.com/DataKnifeAI/satisfactory-operator/blob/main/docs/CONNECT.md">docs/CONNECT.md</a>.
+        </p>
+
+        <h3 class="subhead">1. Read the address (admins)</h3>
+        <pre class="codeblock"><code>kubectl get satisfactoryserver -n game-servers
+# ADDRESS + PORT → status.connectionAddress / connectionPort
+
+kubectl get satisfactoryserver satisfactory-server -n game-servers \
+  -o jsonpath='{.status.connectionAddress}:{.status.connectionPort}{"\n"}'</code></pre>
+        <p>
+          Share <code>connectionAddress:connectionPort</code> (default port <strong>7777</strong> UDP).
+          Example: <code>192.168.14.188:7777</code>.
+        </p>
+
+        <h3 class="subhead">2. Direct connect</h3>
+        <ol class="guide">
+          <li>Launch <strong>Satisfactory</strong> → use <strong>Direct Connect</strong>.</li>
+          <li>Enter the VIP and port from status.</li>
+          <li>
+            Enter the world password from Secret key <code>world-password</code>, unless
+            <code>allowEmptyWorldPassword: true</code>.
+          </li>
+        </ol>
+
+        <h3 class="subhead">3. Passwords</h3>
+        <ul class="ports">
+          <li>
+            <span class="ports__label">world-password</span>
+            <span class="ports__value">Join password — share with players</span>
+          </li>
+          <li>
+            <span class="ports__label">admin-password</span>
+            <span class="ports__value">Server Manager / legacy admin — keep private</span>
+          </li>
+        </ul>
+        <pre class="codeblock"><code>kubectl get secret satisfactory-server-secrets -n game-servers \
+  -o jsonpath='{.data.world-password}' | base64 -d; echo
+
+kubectl get secret satisfactory-server-secrets -n game-servers \
+  -o jsonpath='{.data.admin-password}' | base64 -d; echo</code></pre>
+
+        <h3 class="subhead">4. Why not Envoy?</h3>
+        <p>
+          <strong>Direct VIP</strong> is the reliable path. Envoy’s UDP proxy rewrites the client
+          source to the Envoy pod IP — Satisfactory then fails with “network connection failed”.
+          Set <code>gateway.enabled: false</code> and <code>serviceType: LoadBalancer</code>.
+        </p>
+        <p class="fineprint">
+          Recent/Public listings may show a WAN IP from EOS — prefer Direct for private operator worlds.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--manager" id="manager" aria-labelledby="manager-heading">
+      <div class="wrap wrap--readable">
+        <h2 id="manager-heading">Optional Server Manager</h2>
+        <p class="section__lede section__lede--wide">
+          An authenticated admin UI (HTTPS via Gateway API when hostname + TLS are set).
+          Overview, controls, settings, passwords, Steam update flags, and backups —
+          not a generic ops dashboard. Kick/ban stays in-game.
+        </p>
+        <ol class="journey">
+          <li>
+            <span class="journey__step">1</span>
+            <div>
+              <h3>Overview</h3>
+              <p>Ready/phase, connect string, world GUID / build, backup flag.</p>
+            </div>
+          </li>
+          <li>
+            <span class="journey__step">2</span>
+            <div>
+              <h3>Controls</h3>
+              <p>Restart (Recreate) and download world data <code>.tar.gz</code>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="journey__step">3</span>
+            <div>
+              <h3>Settings / Access</h3>
+              <p>CR fields (name, players, owner, admins) and Secret password rotate.</p>
+            </div>
+          </li>
+          <li>
+            <span class="journey__step">4</span>
+            <div>
+              <h3>Updates / Backups</h3>
+              <p>Steam auto-stop + validate flags; list/run/download backup archives.</p>
+            </div>
+          </li>
+        </ol>
+        <p class="fineprint">
+          Enable with <code>spec.serverManager.enabled</code>. Basic auth: <code>admin</code> +
+          <code>admin-password</code>. HTTPS needs <code>hostname</code> + <code>tlsSecretRef</code>.
+          Details:
+          <a href="https://github.com/DataKnifeAI/satisfactory-operator/blob/main/docs/SERVER_MANAGER.md">SERVER_MANAGER.md</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--faq" id="faq" aria-labelledby="faq-heading">
+      <div class="wrap wrap--readable">
+        <h2 id="faq-heading">FAQ</h2>
+        <div class="faq">
+          <details>
+            <summary>Why does join fail behind Envoy Gateway?</summary>
+            <p>
+              Unreal sees the Envoy pod IP as the client source. Use a LoadBalancer VIP with
+              <code>gateway.enabled: false</code> instead.
+            </p>
+          </details>
+          <details>
+            <summary>Do I need serverName?</summary>
+            <p>
+              Yes — the community image will not start without a Satisfactory Player ID
+              (<code>spec.serverName</code>).
+            </p>
+          </details>
+          <details>
+            <summary>What happens if the world GUID changes?</summary>
+            <p>
+              The operator pins <code>status.worldSaveGuid</code> and refuses Ready on drift.
+              Clear it only for an intentional wipe/rebuild.
+            </p>
+          </details>
+          <details>
+            <summary>Where are the rest of the docs?</summary>
+            <p>
+              Architecture, game server, backups, metrics, and FAQ live under
+              <a href="https://github.com/DataKnifeAI/satisfactory-operator/tree/main/docs">docs/</a>
+              on GitHub.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <div class="site-footer__brand">Satisfactory Operator</div>
+      <div class="site-footer__links">
+        <a href="https://github.com/DataKnifeAI/satisfactory-operator">GitHub</a>
+        <a href="https://github.com/DataKnifeAI/satisfactory-operator/blob/main/docs/ARCHITECTURE.md">Architecture</a>
+        <a href="https://github.com/DataKnifeAI/palworld-operator">Palworld Operator</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

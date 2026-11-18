@@ -1,0 +1,30 @@
+# Local Satisfactory dedicated server (no Kubernetes).
+# robtme community image — see docs/LOCAL.md
+#
+#   cp .env.example .env
+#   docker compose up -d
+#   docker compose down
+
+services:
+  satisfactory-server:
+    image: ${SATISFACTORY_IMAGE:-ghcr.io/robtme/satisfactory-server}
+    container_name: satisfactory-local
+    restart: unless-stopped
+    stop_grace_period: 60s
+    ports:
+      # Host and container ports must match for Satisfactory.
+      - "${GAME_PORT:-7777}:7777/udp"
+      - "${GAME_PORT:-7777}:7777/tcp"
+      - "${RELIABLE_PORT:-8888}:8888/tcp"
+    environment:
+      MAXPLAYERS: "${MAXPLAYERS:-4}"
+      SERVERGAMEPORT: "${GAME_PORT:-7777}"
+      SERVERMESSAGINGPORT: "${RELIABLE_PORT:-8888}"
+      SKIPUPDATE: "${SKIPUPDATE:-true}"
+      STEAMBETA: "${STEAMBETA:-false}"
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+    volumes:
+      - ./data:/config
+    mem_limit: ${MEM_LIMIT:-16g}
+    cpus: ${CPU_LIMIT:-4.0}

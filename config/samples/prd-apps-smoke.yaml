@@ -1,0 +1,45 @@
+# Smoke deploy for prd-apps game-servers (direct kube-vip LoadBalancer).
+# Reuses historical Satisfactory VIP 192.168.14.185 after removing the old
+# static/Envoy stack. First start downloads ~15Gi via SteamCMD.
+apiVersion: satisfactory.dataknife.ai/v1alpha1
+kind: SatisfactoryServer
+metadata:
+  name: satisfactory-server
+  namespace: game-servers
+  labels:
+    app.kubernetes.io/name: satisfactory-server
+    app.kubernetes.io/instance: satisfactory-server
+spec:
+  serverName: "Lee's Satisfactory"
+  maxPlayers: 4
+  gamePort: 7777
+  reliablePort: 8888
+
+  image: ghcr.io/robtme/satisfactory-server
+  imagePullPolicy: IfNotPresent
+
+  update:
+    skipUpdate: false   # first boot must install game files into empty PVC
+    steamBeta: false
+
+  gateway:
+    enabled: false
+    serviceType: LoadBalancer
+    address: "192.168.14.185"
+
+  backup:
+    enabled: false
+
+  serverManager:
+    enabled: false
+
+  persistence:
+    size: 40Gi
+    mountPath: /config
+    storageClassName: truenas-csi-nfs
+
+  nodeSelector:
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+  terminationGracePeriodSeconds: 60

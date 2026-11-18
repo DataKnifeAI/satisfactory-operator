@@ -1,0 +1,55 @@
+# Production-shaped deploy for prd-apps game-servers (direct kube-vip LoadBalancer).
+# kubectl apply -f config/samples/prd-apps-test.yaml
+apiVersion: satisfactory.dataknife.ai/v1alpha1
+kind: SatisfactoryServer
+metadata:
+  name: satisfactory-server
+  namespace: game-servers
+  labels:
+    app.kubernetes.io/name: satisfactory-server
+    app.kubernetes.io/instance: satisfactory-server
+spec:
+  serverName: "Lee's Satisfactory"
+  maxPlayers: 4
+  gamePort: 7777
+  reliablePort: 8888
+
+  generateSecrets: true
+
+  image: ghcr.io/robtme/satisfactory-server
+  imagePullPolicy: IfNotPresent
+
+  update:
+    skipUpdate: true
+    autoUpdateImage: false
+
+  # Direct VIP — Envoy UDP proxy breaks Satisfactory client source IPs.
+  gateway:
+    enabled: false
+    serviceType: LoadBalancer
+    address: "192.168.14.188"
+
+  backup:
+    enabled: true
+    schedule: "0 4 * * *"
+    retain: 7
+
+  serverManager:
+    enabled: true
+    port: 8088
+    hostname: satisfactory.dataknife.net
+    httpsPort: 443
+    tlsSecretRef:
+      name: wildcard-dataknife-net-tls
+    image: harbor.dataknife.net/library/satisfactory-operator:v0.2.2
+
+  persistence:
+    size: 40Gi
+    mountPath: /config
+    storageClassName: truenas-csi-nfs
+
+  nodeSelector:
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+
+  terminationGracePeriodSeconds: 60

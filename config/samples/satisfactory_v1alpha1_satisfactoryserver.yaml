@@ -1,0 +1,48 @@
+apiVersion: satisfactory.dataknife.ai/v1alpha1
+kind: SatisfactoryServer
+metadata:
+  labels:
+    app.kubernetes.io/name: satisfactory-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: factory-home
+spec:
+  serverName: "Factory Home"
+  maxPlayers: 4
+  gamePort: 7777
+  reliablePort: 8888
+
+  generateSecrets: true
+
+  image: ghcr.io/robtme/satisfactory-server
+  # Prefer pinning a digest after first successful pull:
+  # image: ghcr.io/robtme/satisfactory-server@sha256:…
+
+  update:
+    skipUpdate: true
+    steamBeta: false
+    autoUpdateImage: false
+
+  # Recommended: direct kube-vip LoadBalancer (Envoy UDP breaks Satisfactory joins).
+  gateway:
+    enabled: false
+    serviceType: LoadBalancer
+    address: "203.0.113.10"
+    # NodePort escape hatch:
+    # serviceType: NodePort
+    # Experimental Envoy Gateway:
+    # enabled: true
+    # className: envoy
+
+  backup:
+    enabled: false
+    # enabled: true
+    # schedule: "0 4 * * *"
+    # retain: 7
+
+  persistence:
+    size: 40Gi
+    mountPath: /config
+    # storageClassName: ""
+
+  # resources: {}  # optional override of wiki-sized defaults
+  terminationGracePeriodSeconds: 60
