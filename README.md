@@ -1,5 +1,15 @@
 # satisfactory-operator
 
+<p align="center">
+  <img src="docs/assets/hero-satisfactory-operator.jpg" alt="Satisfactory Operator — factory world on Kubernetes" width="640">
+</p>
+
+<p align="center">
+  <a href="https://github.com/DataKnifeAI/satisfactory-operator/actions/workflows/test.yml"><img src="https://github.com/DataKnifeAI/satisfactory-operator/actions/workflows/test.yml/badge.svg" alt="Test"></a>
+  <a href="https://github.com/DataKnifeAI/satisfactory-operator/actions/workflows/lint.yml"><img src="https://github.com/DataKnifeAI/satisfactory-operator/actions/workflows/lint.yml/badge.svg" alt="Lint"></a>
+  <a href="https://github.com/DataKnifeAI/satisfactory-operator/actions/workflows/build.yml"><img src="https://github.com/DataKnifeAI/satisfactory-operator/actions/workflows/build.yml/badge.svg" alt="Build"></a>
+</p>
+
 Kubernetes operator for [Satisfactory](https://www.satisfactorygame.com/) dedicated servers.
 One custom resource (`SatisfactoryServer`) reconciles Deployment, PVC, ConfigMap, Service
 (and optional Gateway / backup / Server Manager) around the community image
@@ -11,6 +21,7 @@ Modeled on [dragonwilds-operator](https://github.com/DataKnifeAI/dragonwilds-ope
 GPL image fork [satisfactory-server-k8s](https://github.com/DataKnifeAI/satisfactory-server-k8s)
 (indifferentbroccoli lineage) — prefer this operator going forward.
 
+**Site:** [dataknifeai.github.io/satisfactory-operator](https://dataknifeai.github.io/satisfactory-operator/)  
 **Operator image:** `harbor.dataknife.net/library/satisfactory-operator` (see [docs/GITLAB_MIRROR.md](docs/GITLAB_MIRROR.md))
 
 ## Quick start (cluster)
