@@ -29,7 +29,6 @@ import (
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"k8s.io/utils/ptr"
 	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
-	gatewayv1alpha2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 )
 
 const (
@@ -161,7 +160,7 @@ func BuildGateway(server *satisfactoryv1alpha1.SatisfactoryServer) *gatewayv1.Ga
 		},
 		Spec: gatewayv1.GatewaySpec{
 			GatewayClassName: gatewayv1.ObjectName(className(server.Spec)),
-			Addresses: []gatewayv1.GatewayAddress{
+			Addresses: []gatewayv1.GatewaySpecAddress{
 				{Type: ptr.To(gatewayv1.IPAddressType), Value: server.Spec.Gateway.Address},
 			},
 			Infrastructure: &gatewayv1.GatewayInfrastructure{
@@ -190,15 +189,15 @@ func BuildGateway(server *satisfactoryv1alpha1.SatisfactoryServer) *gatewayv1.Ga
 }
 
 // BuildUDPRoute routes one listener to the envoy backend Service.
-func BuildUDPRoute(server *satisfactoryv1alpha1.SatisfactoryServer, routeName, listenerName string, port int32) *gatewayv1alpha2.UDPRoute {
+func BuildUDPRoute(server *satisfactoryv1alpha1.SatisfactoryServer, routeName, listenerName string, port int32) *gatewayv1.UDPRoute {
 	names := DeriveNames(server)
-	return &gatewayv1alpha2.UDPRoute{
+	return &gatewayv1.UDPRoute{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      routeName,
 			Namespace: server.Namespace,
 			Labels:    gatewayLabels(server),
 		},
-		Spec: gatewayv1alpha2.UDPRouteSpec{
+		Spec: gatewayv1.UDPRouteSpec{
 			CommonRouteSpec: gatewayv1.CommonRouteSpec{
 				ParentRefs: []gatewayv1.ParentReference{{
 					Name:        gatewayv1.ObjectName(names.Gateway),
@@ -206,8 +205,8 @@ func BuildUDPRoute(server *satisfactoryv1alpha1.SatisfactoryServer, routeName, l
 					SectionName: ptr.To(gatewayv1.SectionName(listenerName)),
 				}},
 			},
-			Rules: []gatewayv1alpha2.UDPRouteRule{{
-				BackendRefs: []gatewayv1alpha2.BackendRef{{
+			Rules: []gatewayv1.UDPRouteRule{{
+				BackendRefs: []gatewayv1.BackendRef{{
 					BackendObjectReference: gatewayv1.BackendObjectReference{
 						Name: gatewayv1.ObjectName(names.EnvoySvc),
 						Port: ptr.To(gatewayv1.PortNumber(port)),

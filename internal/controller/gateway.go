@@ -31,7 +31,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
-	gatewayv1alpha2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 )
 
 type gatewayResult struct {
@@ -144,8 +143,8 @@ func (r *SatisfactoryServerReconciler) deleteOwnedGatewayStack(
 	names gateway.Names,
 ) error {
 	toDelete := []client.Object{
-		&gatewayv1alpha2.UDPRoute{ObjectMeta: metav1.ObjectMeta{Name: names.GameRoute, Namespace: server.Namespace}},
-		&gatewayv1alpha2.UDPRoute{ObjectMeta: metav1.ObjectMeta{Name: names.BeaconRoute, Namespace: server.Namespace}},
+		&gatewayv1.UDPRoute{ObjectMeta: metav1.ObjectMeta{Name: names.GameRoute, Namespace: server.Namespace}},
+		&gatewayv1.UDPRoute{ObjectMeta: metav1.ObjectMeta{Name: names.BeaconRoute, Namespace: server.Namespace}},
 		&gatewayv1.Gateway{ObjectMeta: metav1.ObjectMeta{Name: names.Gateway, Namespace: server.Namespace}},
 		&egv1a1.EnvoyProxy{ObjectMeta: metav1.ObjectMeta{Name: names.EnvoyProxy, Namespace: server.Namespace}},
 	}
