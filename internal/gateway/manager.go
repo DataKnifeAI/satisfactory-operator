@@ -117,7 +117,7 @@ func BuildManagerGateway(server *satisfactoryv1alpha1.SatisfactoryServer, tlsSec
 		Port:          gatewayv1.PortNumber(config.ServerManagerHTTPSPort(server.Spec)),
 		Protocol:      gatewayv1.HTTPSProtocolType,
 		AllowedRoutes: sameNS,
-		TLS: &gatewayv1.GatewayTLSConfig{
+		TLS: &gatewayv1.ListenerTLSConfig{
 			Mode: ptr.To(gatewayv1.TLSModeTerminate),
 			CertificateRefs: []gatewayv1.SecretObjectReference{{
 				Name: gatewayv1.ObjectName(tlsSecretName),

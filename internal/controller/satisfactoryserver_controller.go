@@ -38,7 +38,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	gatewayv1 "sigs.k8s.io/gateway-api/apis/v1"
-	gatewayv1alpha2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 )
 
 const finalizerName = "satisfactory.dataknife.ai/finalizer"
@@ -407,8 +406,8 @@ func (r *SatisfactoryServerReconciler) applyObject(ctx context.Context, obj clie
 		cur.OwnerReferences = desired.OwnerReferences
 		cur.Spec = desired.Spec
 		return r.Update(ctx, cur)
-	case *gatewayv1alpha2.UDPRoute:
-		cur := existing.(*gatewayv1alpha2.UDPRoute)
+	case *gatewayv1.UDPRoute:
+		cur := existing.(*gatewayv1.UDPRoute)
 		cur.Labels = desired.Labels
 		cur.OwnerReferences = desired.OwnerReferences
 		cur.Spec = desired.Spec
@@ -483,7 +482,7 @@ func (r *SatisfactoryServerReconciler) SetupWithManager(mgr ctrl.Manager) error 
 		Owns(&rbacv1.Role{}).
 		Owns(&rbacv1.RoleBinding{}).
 		Owns(&gatewayv1.Gateway{}).
-		Owns(&gatewayv1alpha2.UDPRoute{}).
+		Owns(&gatewayv1.UDPRoute{}).
 		Owns(&egv1a1.EnvoyProxy{}).
 		Named("satisfactoryserver").
 		Complete(r)
